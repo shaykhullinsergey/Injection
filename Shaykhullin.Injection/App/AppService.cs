@@ -46,7 +46,7 @@ namespace Shaykhullin.Injection.App
     {
       var fieldsInfo = instance.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
         .Where(field => field.IsDefined(typeof(InjectAttribute)))
-        .Select(field => (field, field.GetCustomAttribute<InjectAttribute>()));
+        .Select(field => (field: field, inject: field.GetCustomAttribute<InjectAttribute>()));
 
       foreach (var info in fieldsInfo)
       {
@@ -62,8 +62,8 @@ namespace Shaykhullin.Injection.App
       }
 
       var propertiesInfo = instance.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public)
-        .Where(p => p.IsDefined(typeof(InjectAttribute)))
-        .Select(p => (p, p.GetCustomAttribute<InjectAttribute>()));
+        .Where(property => property.IsDefined(typeof(InjectAttribute)))
+        .Select(property => (property: property, inject: property.GetCustomAttribute<InjectAttribute>()));
 
       foreach (var info in propertiesInfo)
       {

@@ -10,7 +10,8 @@ namespace Shaykhullin.Injection.App
 
     public ICreationalBehaviour Get(Type type, string name = null)
     {
-      return dependencies.GetValueOrDefault(new AppDependency(type, name));
+      dependencies.TryGetValue(new AppDependency(type, name), out var creator);
+      return creator;
     }
 
     public IEnumerable<ICreationalBehaviour> GetAll<TResolve>()
