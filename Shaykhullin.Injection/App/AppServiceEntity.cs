@@ -34,7 +34,7 @@ namespace Shaykhullin.Injection.App
       return this;
     }
 
-    public IServiceEntity<TRegister> Returns(TRegister returns)
+    public IServiceEntity<TRegister> Returns(Func<IService, TRegister> returns)
     {
       state.Returns = returns;
       return this;

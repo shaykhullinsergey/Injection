@@ -41,6 +41,20 @@ namespace Shaykhullin.Injection.Tests
     }
 
     [Fact]
+    public void ReturnsReturns()
+    {
+      var b = new B();
+
+      var service = new AppServiceBuilder()
+        .Register<B>()
+          .Returns(s => b)
+          .AsSingleton()
+        .Service;
+
+      Assert.Equal(b, service.Resolve<B>());
+    }
+
+    [Fact]
     public void NamedAndArgsInjectResolves()
     {
       var service = new AppServiceBuilder()

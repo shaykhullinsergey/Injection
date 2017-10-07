@@ -14,7 +14,7 @@ namespace Shaykhullin.Injection.App
     public IServiceBuilder AsSingleton(params object[] args)
     {
       state.Container.Register(new AppDependency(typeof(TResolve), state.Named),
-        new AppSingletonCreationalBehaviour<TRegister>(state.Returns, args));
+        new AppSingletonCreationalBehaviour<TRegister>(state, args));
 
       return state.Builder;
     }
@@ -22,7 +22,7 @@ namespace Shaykhullin.Injection.App
     public IServiceBuilder AsTransient()
     {
       state.Container.Register(new AppDependency(typeof(TResolve), state.Named),
-        new AppTransientCreationalBehaviour<TRegister>(state.Returns));
+        new AppTransientCreationalBehaviour<TRegister>(state));
 
       return state.Builder;
     }

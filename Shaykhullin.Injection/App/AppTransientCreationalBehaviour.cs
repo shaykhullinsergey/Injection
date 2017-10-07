@@ -6,16 +6,19 @@ namespace Shaykhullin.Injection.App
 {
   internal class AppTransientCreationalBehaviour<TRegister> : ICreationalBehaviour
   {
-    private TRegister returns;
+    private IService service;
+    private Func<IService, TRegister> returns;
 
-    public AppTransientCreationalBehaviour(TRegister returns)
+    public AppTransientCreationalBehaviour(AppEntityState<TRegister> state)
     {
-      this.returns = returns;
+      (service, returns) = state;
     }
 
     public TResolve Create<TResolve>(params object[] args)
     {
-      return (TResolve)(returns != null ? DeepCopy(returns) : Activator.CreateInstance(typeof(TRegister), args));
+      return (TResolve)(returns != null 
+        ? DeepCopy(returns(service)) 
+        : Activator.CreateInstance(typeof(TRegister), args));
     }
 
     private TRegister DeepCopy(TRegister returns)

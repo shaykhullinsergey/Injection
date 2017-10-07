@@ -2,7 +2,7 @@
 
 namespace Shaykhullin.Injection
 {
-  [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+  [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
   public class InjectAttribute : Attribute
   {
     public string Name { get; set; }

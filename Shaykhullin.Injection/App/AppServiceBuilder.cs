@@ -1,5 +1,4 @@
 ﻿using Shaykhullin.Injection.App;
-using System;
 
 namespace Shaykhullin.Injection
 {
@@ -14,15 +13,17 @@ namespace Shaykhullin.Injection
       Service = new AppService(container);
 
       Register<IService>()
-        .Returns(Service)
+        .Returns(s => Service)
         .AsSingleton();
     }
 
-    public IServiceEntity<TRegister> Register<TRegister>() =>
-      new AppServiceEntity<TRegister>(new AppEntityState<TRegister>
+    public IServiceEntity<TRegister> Register<TRegister>()
+    {
+      return new AppServiceEntity<TRegister>(new AppEntityState<TRegister>
       {
         Builder = this,
         Container = container
       });
+    }
   }
 }

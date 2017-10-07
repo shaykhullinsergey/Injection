@@ -4,17 +4,27 @@ namespace Shaykhullin.Injection.App
 {
   internal class AppSingletonCreationalBehaviour<TRegister> : ICreationalBehaviour
   {
+    private IService service;
+    private Func<IService, TRegister> returns;
     private object instance;
 
-    public AppSingletonCreationalBehaviour(TRegister returns, params object[] args)
+    public AppSingletonCreationalBehaviour(AppEntityState<TRegister> state, params object[] args)
     {
-      instance = returns != null 
-        ? returns 
-        : Activator.CreateInstance(typeof(TRegister), args);
+      (service, returns) = state;
     }
 
     public TResolve Create<TResolve>(params object[] args)
     {
+      if(instance == null)
+      {
+        instance = returns != null
+          ? returns(service)
+          : Activator.CreateInstance(typeof(TRegister), args);
+
+        returns = null;
+        service = null;
+      }
+
       return (TResolve)instance;
     }
   }
