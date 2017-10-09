@@ -2,10 +2,9 @@
 
 namespace Shaykhullin.Injection
 {
-  public interface IServiceEntity<TRegister> : ICreationalSelector<TRegister, TRegister>
-  {
-    ICreationalSelector<TRegister, TResolve> As<TResolve>();
-    IServiceEntity<TRegister> Returns(Func<IService, TRegister> returns);
-    IServiceEntity<TRegister> Named(string named);
-  }
+	public interface IServiceEntity<TRegister> : IParamsCreationalSelector<TRegister, TRegister>, IServiceBuilder
+	{
+		IParamsCreationalSelector<TRegister, TResolve> As<TResolve>();
+		IReturnsEntity<TRegister> Returns(Func<IService, TRegister> returns);
+	}
 }
