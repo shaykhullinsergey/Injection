@@ -20,22 +20,22 @@ namespace Test
 		IParamsCreationalBehaviour<TRegister, TResolve> As<TResolve>();
 	}
 
-	interface INamedEntity<TRegister> : IParamsCastEntity<TRegister>
+	interface IParamsNamedEntity<TRegister> : IParamsCastEntity<TRegister>
 	{
 		IParamsCastEntity<TRegister> Named(string name);
 	}
 
-	interface IReturnsNamedEntity<TRegister> : IEmptyCastEntity<TRegister>
+	interface IEmptyNamedEntity<TRegister> : IEmptyCastEntity<TRegister>
 	{
 		IEmptyCastEntity<TRegister> Named(string name);
 	}
 
 	interface IReturnsEntity<TRegister> : IEmptyCastEntity<TRegister>, IServiceBuilder
 	{
-		IReturnsNamedEntity<TRegister> Returns(Func<IService, TRegister> returns);
+		IEmptyNamedEntity<TRegister> Returns(Func<IService, TRegister> returns);
 	}
 
-	interface IServiceEntity<TRegister> : INamedEntity<TRegister>, IReturnsEntity<TRegister>, IServiceBuilder
+	interface IServiceEntity<TRegister> : IParamsNamedEntity<TRegister>, IReturnsEntity<TRegister>
 	{
 	}
 
@@ -68,7 +68,7 @@ namespace Test
 				.Register<Test>()
 					.Named("")
 					.As<Test>()
-					.Singleton()
+					.Singleton(1, 2)
 				.Register<Test>()
 					.Returns(s => null)
 					.Named("")
@@ -79,7 +79,8 @@ namespace Test
 					.Named("")
 				.Register<Test>()
 					.Singleton()
-				.Service;
+				.Register<Test>()
+			.Service;
 		}
 	}
 }
