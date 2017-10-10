@@ -18,7 +18,7 @@ namespace Shaykhullin.Injection.App
       if(args?.Length != 0)
       {
         throw new InvalidOperationException(
-          $"Can't resolve singleton of type{typeof(TRegister)} using arguments");
+          $"Can't resolve singleton of type {typeof(TRegister)} using arguments");
       }
 
       return (TResolve)lazy.Value;

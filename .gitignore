@@ -1,0 +1,16 @@
+Shaykhullin.Injection.Tests/obj/Release/netcoreapp2.0/Shaykhullin.Injection.Tests.pdb
+Shaykhullin.Injection.Tests/obj/Release/netcoreapp2.0/Shaykhullin.Injection.Tests.dll
+*.cache
+*.txt
+*.CopyComplete
+*.dll
+Shaykhullin.Injection.Tests/bin/Release/netcoreapp2.0/Shaykhullin.Injection.Tests.runtimeconfig.json
+Shaykhullin.Injection.Tests/bin/Release/netcoreapp2.0/Shaykhullin.Injection.Tests.runtimeconfig.dev.json
+Shaykhullin.Injection.Tests/bin/Release/netcoreapp2.0/Shaykhullin.Injection.Tests.deps.json
+*.pdb
+Shaykhullin.Injection/bin/Release/netstandard2.0/Shaykhullin.Injection.deps.json
+.vs/Shaykhullin.Injection/v15/sqlite3/storage.ide
+*.json
+*.suo
+Shaykhullin.Injection/obj/Release/Shaykhullin.Injection.2.1.0.nuspec
+Shaykhullin.Injection/bin/Release/Shaykhullin.Injection.2.1.0.nupkg
