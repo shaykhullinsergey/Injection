@@ -90,13 +90,16 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     [Fact]
     public void SingletonVsInject()
     {
-      var service = new AppServiceBuilder()
-        .Register<B>()
-          .Singleton(3, 4)
-        .Register<C>()
-        .Service;
+      Assert.Throws<InvalidOperationException>(() =>
+      {
+        var service = new AppServiceBuilder()
+          .Register<B>()
+            .Singleton(3, 4)
+          .Register<C>()
+          .Service;
 
-      var c = service.Resolve<C>();
+        var c = service.Resolve<C>();
+      });
     }
   }
 }

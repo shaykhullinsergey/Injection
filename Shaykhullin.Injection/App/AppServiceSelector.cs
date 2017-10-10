@@ -3,35 +3,11 @@
 namespace Shaykhullin.Injection
 {
   internal class AppServiceSelector<TRegister, TResolve> 
-    : IServiceSelector<TRegister, TResolve>
+    : AppServiceSelectorProvider<TRegister, TResolve>,
+      IServiceSelector<TRegister, TResolve>
   {
-    private IServiceBuilder builder;
-    private IDependencyContainer<AppDependency> container;
-
-    public AppServiceSelector(IServiceBuilder builder, IDependencyContainer<AppDependency> container)
-    {
-      this.builder = builder;
-      this.container = container;
-    }
-
-    public IService Service
-    {
-      get
-      {
-        container.Register(new AppDependency(typeof(TRegister), typeof(TResolve)),
-          new AppTransientCreationalBehaviour<TRegister>(null));
-
-        return builder.Service;
-      }
-    }
-
-    public IServiceEntity<TNext> Register<TNext>()
-    {
-      container.Register(new AppDependency(typeof(TRegister), typeof(TResolve)),
-        new AppTransientCreationalBehaviour<TRegister>(null));
-
-      return new AppServiceEntity<TNext>(builder, container);
-    }
+    public AppServiceSelector(IServiceBuilder builder, IDependencyContainer<AppDependency> container) 
+      : base(builder, container) { }
 
     public IServiceBuilder Singleton(params object[] args)
     {

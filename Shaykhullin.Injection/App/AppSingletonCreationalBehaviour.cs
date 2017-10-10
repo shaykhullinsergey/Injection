@@ -9,7 +9,7 @@ namespace Shaykhullin.Injection.App
     public AppSingletonCreationalBehaviour(Func<TRegister> returns, object[] args)
     {
       lazy = returns == null
-        ? new Lazy<object>(() => AppUtils.CreateInstance<TRegister>(args))
+        ? new Lazy<object>(() => Utils.CreateInstance<TRegister>(args))
         : new Lazy<object>(() => returns());
     }
 

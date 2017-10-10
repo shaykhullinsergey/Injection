@@ -15,7 +15,7 @@ namespace Shaykhullin.Injection.App
     {
       return (TResolve)(returns != null && args?.Length == 0
         ? returns()
-        : (object)AppUtils.CreateInstance<TRegister>(args));
+        : (object)Utils.CreateInstance<TRegister>(args));
     }
   }
 }

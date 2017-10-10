@@ -1,43 +1,18 @@
-﻿using Shaykhullin.Injection.App;
-using System;
+﻿using System;
+using Shaykhullin.Injection.App;
 
 namespace Shaykhullin.Injection
 {
-  internal class AppReturnsEntity<TRegister> : IReturnsEntity<TRegister>
+  internal class AppReturnsEntity<TRegister> 
+    : AppReturnsEntityProvider<TRegister>, 
+      IReturnsEntity<TRegister>
   {
-    private IServiceBuilder builder;
-    private IDependencyContainer<AppDependency> container;
-    private Func<TRegister> returns;
-
-    public AppReturnsEntity(IServiceBuilder builder, IDependencyContainer<AppDependency> container, Func<TRegister> returns)
-    {
-      this.builder = builder;
-      this.container = container;
-      this.returns = returns;
-    }
-
-    public IService Service
-    {
-      get
-      {
-        container.Register(new AppDependency(typeof(TRegister), typeof(TRegister)),
-          new AppTransientCreationalBehaviour<TRegister>(returns));
-
-        return builder.Service;
-      }
-    }
+    public AppReturnsEntity(IServiceBuilder builder, IDependencyContainer<AppDependency> container, 
+      Func<TRegister> returns) : base(builder, container, returns) { }
 
     public IReturnsSelector<TRegister, TResolve> As<TResolve>()
     {
       return new AppReturnsSelector<TRegister, TResolve>(builder, container, returns);
-    }
-
-    public IServiceEntity<TNext> Register<TNext>()
-    {
-      container.Register(new AppDependency(typeof(TRegister), typeof(TRegister)),
-        new AppTransientCreationalBehaviour<TRegister>(returns));
-
-      return new AppServiceEntity<TNext>(builder, container);
     }
 
     public IServiceBuilder Singleton()
