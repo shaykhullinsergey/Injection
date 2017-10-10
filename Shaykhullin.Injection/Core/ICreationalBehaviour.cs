@@ -2,6 +2,6 @@
 {
   internal interface ICreationalBehaviour
   {
-    TResolve Create<TResolve>(params object[] args);
+    TResolve Create<TResolve>(object[] args);
   }
 }

@@ -1,37 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using static Shaykhullin.Injection.AppUtils;
 
 namespace Shaykhullin.Injection.App
 {
-	internal class AppService : IService
-	{
-		private IDependencyContainer container;
+  internal class AppService : IService
+  {
+    private IDependencyContainer<AppDependency> container;
 
-		public AppService(IDependencyContainer container)
-		{
-			this.container = container ?? throw new ArgumentNullException(nameof(container));
-		}
+    public AppService(IDependencyContainer<AppDependency> container)
+    {
+      this.container = container;
+    }
 
-		public TResolve Resolve<TResolve>(params object[] args)
-		{
-			var creator = container.Get(new AppDependency(typeof(TResolve)))
-			   ?? throw new NotSupportedException($"Type {typeof(TResolve).Name} is not registered in container");
+    public TResolve Resolve<TResolve>(params object[] args)
+    {
+      return Resolve<TResolve, TResolve>(args);
+    }
 
-			return ResolveInstance<TResolve>(container, creator, args);
-		}
+    public TResolve Resolve<TResolve, TRegister>(params object[] args)
+    {
+      var creator = container.Get(new AppDependency(typeof(TRegister), typeof(TResolve)))
+        ?? throw new NotSupportedException($"Type {typeof(TResolve).Name} is not registered in container");
 
-		public IEnumerable<TResolve> ResolveAll<TResolve>(params object[] args)
-		{
-			foreach (var creator in container.GetAll<TResolve>())
-			{
-				yield return ResolveInstance<TResolve>(container, creator, args);
-			}
-		}
+      return AppUtils.ResolveInstance<TResolve>(container, creator, args);
+    }
 
-		public void ResolveFor<TResolve>(TResolve instance)
-		{
-			ResolveInstanceRecursive(container, instance);
-		}
-	}
+    public void ResolveFor<TResolve>(TResolve instance)
+    {
+      AppUtils.ResolveInstanceRecursive(container, instance);
+    }
+
+    public IEnumerable<TResolve> ResolveAll<TResolve>()
+    {
+      foreach (var creator in container.GetAll<TResolve>())
+      {
+        yield return AppUtils.ResolveInstance<TResolve>(container, creator);
+      }
+    }
+  }
 }

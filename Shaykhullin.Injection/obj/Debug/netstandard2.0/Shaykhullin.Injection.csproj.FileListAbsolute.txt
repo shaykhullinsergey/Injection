@@ -1,0 +1,9 @@
+C:\Users\yolor\Desktop\Third\Shaykhullin.Injection\obj\Debug\netstandard2.0\Shaykhullin.Injection.csprojResolveAssemblyReference.cache
+C:\Users\yolor\Desktop\Third\Shaykhullin.Injection\obj\Debug\netstandard2.0\Shaykhullin.Injection.csproj.CoreCompileInputs.cache
+C:\Users\yolor\Desktop\Third\Shaykhullin.Injection\obj\Debug\netstandard2.0\Shaykhullin.Injection.AssemblyInfoInputs.cache
+C:\Users\yolor\Desktop\Third\Shaykhullin.Injection\obj\Debug\netstandard2.0\Shaykhullin.Injection.AssemblyInfo.cs
+C:\Users\yolor\Desktop\Third\Shaykhullin.Injection\bin\Debug\netstandard2.0\Shaykhullin.Injection.deps.json
+C:\Users\yolor\Desktop\Third\Shaykhullin.Injection\bin\Debug\netstandard2.0\Shaykhullin.Injection.dll
+C:\Users\yolor\Desktop\Third\Shaykhullin.Injection\bin\Debug\netstandard2.0\Shaykhullin.Injection.pdb
+C:\Users\yolor\Desktop\Third\Shaykhullin.Injection\obj\Debug\netstandard2.0\Shaykhullin.Injection.dll
+C:\Users\yolor\Desktop\Third\Shaykhullin.Injection\obj\Debug\netstandard2.0\Shaykhullin.Injection.pdb

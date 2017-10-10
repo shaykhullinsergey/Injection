@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Shaykhullin.Injection.App
+namespace Shaykhullin.Injection
 {
-  internal class AppDependencyContainer : IDependencyContainer
+  internal class AppDependencyContainer
+    : IDependencyContainer<AppDependency>
   {
-    private Dictionary<IDependency, ICreationalBehaviour> dependencies =
-      new Dictionary<IDependency, ICreationalBehaviour>();
+    private readonly Dictionary<AppDependency, ICreationalBehaviour> dependencies =
+      new Dictionary<AppDependency, ICreationalBehaviour>();
 
-    public ICreationalBehaviour Get(Type type, string name = null)
+    public ICreationalBehaviour Get(AppDependency dependency)
     {
-      dependencies.TryGetValue(new AppDependency(type, name), out var creator);
+      dependencies.TryGetValue(dependency, out var creator);
       return creator;
     }
 
@@ -18,12 +18,12 @@ namespace Shaykhullin.Injection.App
     {
       foreach (var dependency in dependencies)
       {
-        if (dependency.Key.Type == typeof(TResolve))
+        if (dependency.Key.Resolve == typeof(TResolve))
           yield return dependency.Value;
       }
     }
 
-    public void Register(IDependency dependency, ICreationalBehaviour behaviour)
+    public void Register(AppDependency dependency, ICreationalBehaviour behaviour)
     {
       dependencies.Add(dependency, behaviour);
     }

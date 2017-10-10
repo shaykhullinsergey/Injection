@@ -1,43 +1,55 @@
-﻿using System;
+﻿using Shaykhullin.Injection.App;
+using System;
 
-namespace Shaykhullin.Injection.App
+namespace Shaykhullin.Injection
 {
-  internal class AppServiceEntity<TRegister> : IServiceEntity<TRegister>
+  internal class AppServiceEntity<TRegister>
+    : IServiceEntity<TRegister>
   {
-    private AppEntityState<TRegister> state;
+    private IServiceBuilder builder;
+    private IDependencyContainer<AppDependency> container;
 
-    public AppServiceEntity(AppEntityState<TRegister> state)
+    public AppServiceEntity(IServiceBuilder builder, IDependencyContainer<AppDependency> container)
     {
-      this.state = state ?? throw new ArgumentNullException(nameof(state));
+      this.builder = builder;
+      this.container = container;
     }
 
-    public ICreationalSelector<TRegister, TResolve> As<TResolve>()
+    public IService Service
     {
-      return new AppCreationalSelector<TRegister, TResolve>(state);
+      get
+      {
+        container.Register(new AppDependency(typeof(TRegister), typeof(TRegister)),
+          new AppTransientCreationalBehaviour<TRegister>(null));
+
+        return builder.Service;
+      }
     }
 
-    public IServiceBuilder AsSingleton(params object[] args)
+    public IServiceEntity<TNext> Register<TNext>()
     {
-      return new AppCreationalSelector<TRegister, TRegister>(state)
-        .AsSingleton(args);
+      container.Register(new AppDependency(typeof(TRegister), typeof(TRegister)),
+        new AppTransientCreationalBehaviour<TRegister>(null));
+
+      return new AppServiceEntity<TNext>(builder, container);
     }
 
-    public IServiceBuilder AsTransient()
+    public IServiceSelector<TRegister, TResolve> As<TResolve>()
     {
-      return new AppCreationalSelector<TRegister, TRegister>(state)
-        .AsTransient();
+      return new AppServiceSelector<TRegister, TResolve>(builder, container);
     }
 
-    public IServiceEntity<TRegister> Named(string named)
+    public IReturnsEntity<TRegister> Returns(Func<IService, TRegister> returns)
     {
-      state.Named = named;
-      return this;
+      return new AppReturnsEntity<TRegister>(builder, container, () => returns(builder.Service));
     }
 
-    public IServiceEntity<TRegister> Returns(Func<IService, TRegister> returns)
+    public IServiceBuilder Singleton(params object[] args)
     {
-      state.Returns = returns;
-      return this;
+      container.Register(new AppDependency(typeof(TRegister), typeof(TRegister)),
+        new AppSingletonCreationalBehaviour<TRegister>(null, args));
+
+      return builder;
     }
   }
 }

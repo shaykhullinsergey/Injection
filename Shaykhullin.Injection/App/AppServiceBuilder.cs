@@ -4,8 +4,7 @@ namespace Shaykhullin.Injection
 {
   public class AppServiceBuilder : IServiceBuilder
   {
-    private IDependencyContainer container;
-    public IService Service { get; }
+    private readonly IDependencyContainer<AppDependency> container;
 
     public AppServiceBuilder()
     {
@@ -14,16 +13,14 @@ namespace Shaykhullin.Injection
 
       Register<IService>()
         .Returns(s => Service)
-        .AsSingleton();
+        .Singleton();
     }
+
+    public IService Service { get; }
 
     public IServiceEntity<TRegister> Register<TRegister>()
     {
-      return new AppServiceEntity<TRegister>(new AppEntityState<TRegister>
-      {
-        Builder = this,
-        Container = container
-      });
+      return new AppServiceEntity<TRegister>(this, container);
     }
   }
 }

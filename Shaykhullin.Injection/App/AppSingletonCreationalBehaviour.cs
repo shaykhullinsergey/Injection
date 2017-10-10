@@ -4,28 +4,24 @@ namespace Shaykhullin.Injection.App
 {
   internal class AppSingletonCreationalBehaviour<TRegister> : ICreationalBehaviour
   {
-    private IService service;
-    private Func<IService, TRegister> returns;
-    private object instance;
+    private Lazy<object> lazy;
 
-    public AppSingletonCreationalBehaviour(AppEntityState<TRegister> state, params object[] args)
+    public AppSingletonCreationalBehaviour(Func<TRegister> returns, object[] args)
     {
-      (service, returns) = state;
+      lazy = returns == null
+        ? new Lazy<object>(() => AppUtils.CreateInstance<TRegister>(args))
+        : new Lazy<object>(() => returns());
     }
 
     public TResolve Create<TResolve>(params object[] args)
     {
-      if(instance == null)
+      if(args?.Length != 0)
       {
-        instance = returns != null
-          ? returns(service)
-          : Activator.CreateInstance(typeof(TRegister), args);
-
-        returns = null;
-        service = null;
+        throw new InvalidOperationException(
+          $"Can't resolve singleton of type{typeof(TRegister)} using arguments");
       }
 
-      return (TResolve)instance;
+      return (TResolve)lazy.Value;
     }
   }
 }
