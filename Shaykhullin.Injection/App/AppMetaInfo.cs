@@ -26,8 +26,8 @@ namespace Shaykhullin.Injection.App
           inject: property.GetCustomAttribute<InjectAttribute>()));
     }
 
-    public void Deconstruct(out IEnumerable<(FieldInfo field, InjectAttribute inject)> fields,
-      out IEnumerable<(PropertyInfo prop, InjectAttribute inject)> props)
+    public void Deconstruct(out IEnumerable<(FieldInfo Field, InjectAttribute Inject)> fields,
+      out IEnumerable<(PropertyInfo Property, InjectAttribute Inject)> props)
     {
       fields = this.fields;
       props = this.props;
