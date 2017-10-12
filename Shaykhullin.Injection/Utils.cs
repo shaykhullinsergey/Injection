@@ -15,20 +15,59 @@ namespace Shaykhullin.Injection
         : (TInstance)Activator.CreateInstance(typeof(TInstance), args);
     }
 
-    public static TResolve ResolveInstance<TResolve>(IDependencyContainer<AppDependency> container, ICreationalBehaviour creator, params object[] args)
+    public static TResolve Resolve<TResolve>(IDependencyContainer<AppDependency> container, 
+      ICreationalBehaviour creator, params object[] args)
     {
       var instance = creator.Create<TResolve>(args);
-      ResolveInstanceRecursive(container, instance);
+      var (fields, props) = creator.Meta;
+
+      foreach (var info in fields)
+      {
+        var (field, inject) = info;
+
+        if (field.GetValue(instance) != null)
+        {
+          continue;
+        }
+
+        var fieldCreator = container.Get(new AppDependency(
+          field.FieldType, inject.Resolve ?? field.FieldType));
+
+        field.SetValue(instance, Resolve<object>(container, fieldCreator, inject.Args));
+      }
+
+      foreach (var info in props)
+      {
+        var (prop, inject) = info;
+
+        if (prop.GetValue(instance) != null)
+        {
+          continue;
+        }
+
+        var propCreator = container.Get(new AppDependency(
+          prop.PropertyType, inject.Resolve ?? prop.PropertyType));
+
+        prop.SetValue(instance, Resolve<object>(container, propCreator, inject.Args));
+      }
+
       return instance;
     }
 
-    public static void ResolveInstanceRecursive(IDependencyContainer<AppDependency> container, object instance)
+    public static void ResolveInstanceRecursive<TInstance>(IDependencyContainer<AppDependency> container, 
+      TInstance instance)
     {
       var fieldsInfo = instance.GetType()
         .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
         .Where(field => field.IsDefined(typeof(InjectAttribute)))
         .Select(field => (field: field,
           inject: field.GetCustomAttribute<InjectAttribute>()));
+
+      var propertiesInfo = instance.GetType()
+        .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+        .Where(property => property.IsDefined(typeof(InjectAttribute)))
+        .Select(property => (property: property,
+          inject: property.GetCustomAttribute<InjectAttribute>()));
 
       foreach (var info in fieldsInfo)
       {
@@ -39,21 +78,11 @@ namespace Shaykhullin.Injection
           continue;
         }
 
-        var creator = container.Get(new AppDependency(
+        var fieldCreator = container.Get(new AppDependency(
           field.FieldType, inject.Resolve ?? field.FieldType));
 
-        if (creator != null)
-        {
-          field.SetValue(instance, creator.Create<object>(inject.Args));
-          ResolveInstanceRecursive(container, field.GetValue(instance));
-        }
+        field.SetValue(instance, Resolve<object>(container, fieldCreator, inject.Args));
       }
-
-      var propertiesInfo = instance.GetType()
-        .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-        .Where(property => property.IsDefined(typeof(InjectAttribute)))
-        .Select(property => (property: property, 
-          inject: property.GetCustomAttribute<InjectAttribute>()));
 
       foreach (var info in propertiesInfo)
       {
@@ -64,14 +93,10 @@ namespace Shaykhullin.Injection
           continue;
         }
 
-        var creator = container.Get(new AppDependency(
+        var propCreator = container.Get(new AppDependency(
           property.PropertyType, inject.Resolve ?? property.PropertyType));
 
-        if (creator != null)
-        {
-          property.SetValue(instance, creator.Create<object>(inject.Args));
-          ResolveInstanceRecursive(container, property.GetValue(instance));
-        }
+        property.SetValue(instance, Resolve<object>(container, propCreator, inject.Args));
       }
     }
   }

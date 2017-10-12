@@ -14,3 +14,5 @@ Shaykhullin.Injection/bin/Release/netstandard2.0/Shaykhullin.Injection.deps.json
 *.suo
 Shaykhullin.Injection/obj/Release/Shaykhullin.Injection.2.1.0.nuspec
 Shaykhullin.Injection/bin/Release/Shaykhullin.Injection.2.1.0.nupkg
+*.lut
+.vs/

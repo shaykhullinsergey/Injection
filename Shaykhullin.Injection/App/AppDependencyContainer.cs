@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Shaykhullin.Injection
 {
@@ -11,6 +12,12 @@ namespace Shaykhullin.Injection
     public ICreationalBehaviour Get(AppDependency dependency)
     {
       dependencies.TryGetValue(dependency, out var creator);
+
+      if(creator == null)
+      {
+        throw new NotSupportedException($"Type {dependency.Resolve} is not registered in container");
+      }
+
       return creator;
     }
 

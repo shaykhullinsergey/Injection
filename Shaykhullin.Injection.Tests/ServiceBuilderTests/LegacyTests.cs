@@ -128,6 +128,24 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
       Assert.Equal(4, h.Y);
     }
 
+
+    [Fact]
+    public void ResolveAllReturnsAllOfType()
+    {
+      var service = new AppServiceBuilder()
+        .Register<A>()
+        .Register<B>()
+          .As<A>()
+        .Register<C>()
+          .As<A>()
+        .Register<B>()
+        .Service;
+
+      var resolved = service.ResolveAll<A>();
+
+      Assert.True(resolved.Count() == 3);
+    }
+
     [Fact]
     public void ResolveForIgnoresAttribute()
     {
@@ -220,21 +238,7 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
       Assert.True(service.Resolve<A, B>() is B);
     }
 
-    [Fact]
-    public void ResolveAllReturnsAllOfType()
-    {
-      var service = new AppServiceBuilder()
-        .Register<A>()
-        .Register<B>()
-          .As<A>()
-        .Register<C>()
-          .As<A>()
-        .Service;
 
-      var resolved = service.ResolveAll<A>();
-
-      Assert.True(resolved.Count() == 3);
-    }
 
     [Fact]
     public void TransientReferencesNotEqual()

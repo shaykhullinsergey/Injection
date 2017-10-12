@@ -19,10 +19,9 @@ namespace Shaykhullin.Injection.App
 
     public TResolve Resolve<TResolve, TRegister>(params object[] args)
     {
-      var creator = container.Get(new AppDependency(typeof(TRegister), typeof(TResolve)))
-        ?? throw new NotSupportedException($"Type {typeof(TResolve).Name} is not registered in container");
+      var creator = container.Get(new AppDependency(typeof(TRegister), typeof(TResolve)));
 
-      return Utils.ResolveInstance<TResolve>(container, creator, args);
+      return Utils.Resolve<TResolve>(container, creator, args);
     }
 
     public void ResolveFor<TResolve>(TResolve instance)
@@ -34,7 +33,7 @@ namespace Shaykhullin.Injection.App
     {
       foreach (var creator in container.GetAll<TResolve>())
       {
-        yield return Utils.ResolveInstance<TResolve>(container, creator);
+        yield return Utils.Resolve<TResolve>(container, creator);
       }
     }
   }
