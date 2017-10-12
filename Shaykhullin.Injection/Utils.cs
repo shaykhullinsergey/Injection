@@ -21,34 +21,20 @@ namespace Shaykhullin.Injection
       var instance = creator.Create<TResolve>(args);
       var (fields, props) = creator.Meta;
 
-      foreach (var info in fields)
+      foreach (var (field, inject) in fields.Where(p => p.Field.GetValue(instance) != null))
       {
-        var (field, inject) = info;
-
-        if (field.GetValue(instance) != null)
-        {
-          continue;
-        }
-
-        var fieldCreator = container.Get(new AppDependency(
+        var propCreator = container.Get(new AppDependency(
           field.FieldType, inject.Resolve ?? field.FieldType));
 
-        field.SetValue(instance, Resolve<object>(container, fieldCreator, inject.Args));
+        field.SetValue(instance, Resolve<object>(container, propCreator, inject.Args));
       }
 
-      foreach (var info in props)
+      foreach (var (property, inject) in props.Where(p => p.Property.GetValue(instance) != null))
       {
-        var (prop, inject) = info;
-
-        if (prop.GetValue(instance) != null)
-        {
-          continue;
-        }
-
         var propCreator = container.Get(new AppDependency(
-          prop.PropertyType, inject.Resolve ?? prop.PropertyType));
+          property.PropertyType, inject.Resolve ?? property.PropertyType));
 
-        prop.SetValue(instance, Resolve<object>(container, propCreator, inject.Args));
+        property.SetValue(instance, Resolve<object>(container, propCreator, inject.Args));
       }
 
       return instance;
@@ -57,42 +43,28 @@ namespace Shaykhullin.Injection
     public static void ResolveInstanceRecursive<TInstance>(IDependencyContainer<AppDependency> container, 
       TInstance instance)
     {
-      var fieldsInfo = instance.GetType()
+      var fields = instance.GetType()
         .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
         .Where(field => field.IsDefined(typeof(InjectAttribute)))
-        .Select(field => (field: field,
-          inject: field.GetCustomAttribute<InjectAttribute>()));
+        .Select(field => (Field: field,
+          Inject: field.GetCustomAttribute<InjectAttribute>()));
 
-      var propertiesInfo = instance.GetType()
+      var props = instance.GetType()
         .GetProperties(BindingFlags.Instance | BindingFlags.Public)
         .Where(property => property.IsDefined(typeof(InjectAttribute)))
-        .Select(property => (property: property,
-          inject: property.GetCustomAttribute<InjectAttribute>()));
+        .Select(property => (Property: property,
+          Inject: property.GetCustomAttribute<InjectAttribute>()));
 
-      foreach (var info in fieldsInfo)
+      foreach (var (field, inject) in fields.Where(p => p.Field.GetValue(instance) != null))
       {
-        var (field, inject) = info;
-
-        if (field.GetValue(instance) != null)
-        {
-          continue;
-        }
-
-        var fieldCreator = container.Get(new AppDependency(
+        var propCreator = container.Get(new AppDependency(
           field.FieldType, inject.Resolve ?? field.FieldType));
 
-        field.SetValue(instance, Resolve<object>(container, fieldCreator, inject.Args));
+        field.SetValue(instance, Resolve<object>(container, propCreator, inject.Args));
       }
 
-      foreach (var info in propertiesInfo)
+      foreach (var (property, inject) in props.Where(p => p.Property.GetValue(instance) != null))
       {
-        var (property, inject) = info;
-
-        if (property.GetValue(instance) != null)
-        {
-          continue;
-        }
-
         var propCreator = container.Get(new AppDependency(
           property.PropertyType, inject.Resolve ?? property.PropertyType));
 

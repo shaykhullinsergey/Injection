@@ -16,3 +16,4 @@ Shaykhullin.Injection/obj/Release/Shaykhullin.Injection.2.1.0.nuspec
 Shaykhullin.Injection/bin/Release/Shaykhullin.Injection.2.1.0.nupkg
 *.lut
 .vs/
+*.props
