@@ -9,7 +9,7 @@ namespace Shaykhullin.Injection.App
   internal class AppMetaInfo<TRegister> : IMetaInfo
   {
     private readonly IEnumerable<(FieldInfo field, InjectAttribute inject)> fields;
-    private readonly IEnumerable<(PropertyInfo prop, InjectAttribute inject)> props;
+    private readonly IEnumerable<(PropertyInfo prop, InjectAttribute inject)> properties;
 
     public AppMetaInfo()
     {
@@ -19,7 +19,7 @@ namespace Shaykhullin.Injection.App
         .Select(field => (field: field,
           inject: field.GetCustomAttribute<InjectAttribute>()));
 
-      props = typeof(TRegister)
+      properties = typeof(TRegister)
         .GetProperties(BindingFlags.Instance | BindingFlags.Public)
         .Where(property => property.IsDefined(typeof(InjectAttribute)))
         .Select(property => (property: property,
@@ -27,10 +27,10 @@ namespace Shaykhullin.Injection.App
     }
 
     public void Deconstruct(out IEnumerable<(FieldInfo Field, InjectAttribute Inject)> fields,
-      out IEnumerable<(PropertyInfo Property, InjectAttribute Inject)> props)
+      out IEnumerable<(PropertyInfo Property, InjectAttribute Inject)> properties)
     {
       fields = this.fields;
-      props = this.props;
+      properties = this.properties;
     }
   }
 }

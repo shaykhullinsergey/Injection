@@ -4,7 +4,7 @@ namespace Shaykhullin.Injection
 {
   public class AppServiceBuilder : IServiceBuilder
   {
-    private readonly IDependencyContainer<AppDependency> container;
+    private readonly IDependencyContainer container;
 
     public AppServiceBuilder()
     {

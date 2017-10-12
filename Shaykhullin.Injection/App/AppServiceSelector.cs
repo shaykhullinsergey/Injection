@@ -6,12 +6,12 @@ namespace Shaykhullin.Injection
     : AppServiceSelectorProvider<TRegister, TResolve>,
       IServiceSelector<TRegister, TResolve>
   {
-    public AppServiceSelector(IServiceBuilder builder, IDependencyContainer<AppDependency> container) 
+    public AppServiceSelector(IServiceBuilder builder, IDependencyContainer container) 
       : base(builder, container) { }
 
     public IServiceBuilder Singleton(params object[] args)
     {
-      container.Register(new AppDependency(typeof(TRegister), typeof(TRegister)),
+      container.Register(new AppDependency<TRegister, TRegister>(),
         new AppSingletonCreationalBehaviour<TRegister>(null, args));
 
       return builder;

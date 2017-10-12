@@ -7,10 +7,10 @@ namespace Shaykhullin.Injection.App
   internal class AppServiceEntityProvider<TRegister> : IServiceBuilder
   {
     protected readonly IServiceBuilder builder;
-    protected readonly IDependencyContainer<AppDependency> container;
+    protected readonly IDependencyContainer container;
 
     public AppServiceEntityProvider(IServiceBuilder builder, 
-      IDependencyContainer<AppDependency> container)
+      IDependencyContainer container)
     {
       this.builder = builder;
       this.container = container;
@@ -20,7 +20,7 @@ namespace Shaykhullin.Injection.App
     {
       get
       {
-        container.Register(new AppDependency(typeof(TRegister), typeof(TRegister)),
+        container.Register(new AppDependency<TRegister, TRegister>(),
           new AppTransientCreationalBehaviour<TRegister>(null));
 
         return builder.Service;
@@ -29,7 +29,7 @@ namespace Shaykhullin.Injection.App
 
     public IServiceEntity<TNext> Register<TNext>()
     {
-      container.Register(new AppDependency(typeof(TRegister), typeof(TRegister)),
+      container.Register(new AppDependency<TRegister, TRegister>(),
         new AppTransientCreationalBehaviour<TRegister>(null));
 
       return new AppServiceEntity<TNext>(builder, container);

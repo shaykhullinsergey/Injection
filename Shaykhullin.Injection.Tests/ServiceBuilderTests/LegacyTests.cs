@@ -215,9 +215,9 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     {
       var service = new AppServiceBuilder()
         .Register<B>()
-        .Singleton()
+          .Singleton()
         .Register<C>()
-        .Singleton()
+          .Singleton()
         .Service;
 
       var b = service.Resolve<B>();

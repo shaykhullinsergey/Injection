@@ -7,7 +7,7 @@ namespace Shaykhullin.Injection
     : AppServiceEntityProvider<TRegister>, 
       IServiceEntity<TRegister>
   {
-    public AppServiceEntity(IServiceBuilder builder, IDependencyContainer<AppDependency> container)
+    public AppServiceEntity(IServiceBuilder builder, IDependencyContainer container)
       : base(builder, container) { }
 
     public IServiceSelector<TRegister, TResolve> As<TResolve>()
@@ -22,7 +22,7 @@ namespace Shaykhullin.Injection
 
     public IServiceBuilder Singleton(params object[] args)
     {
-      container.Register(new AppDependency(typeof(TRegister), typeof(TRegister)),
+      container.Register(new AppDependency<TRegister, TRegister>(),
         new AppSingletonCreationalBehaviour<TRegister>(null, args));
 
       return builder;

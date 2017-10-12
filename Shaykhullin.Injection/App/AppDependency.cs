@@ -3,11 +3,25 @@ using System.Collections.Generic;
 
 namespace Shaykhullin.Injection
 {
-  internal class AppDependency : IEquatable<AppDependency>
+  internal class AppDependency<TRegister, TResolve> : IDependency
   {
     public Type Register { get; set; }
     public Type Resolve { get; set; }
 
+    /// <summary>
+    /// Try to use this constructor to register type
+    /// </summary>
+    public AppDependency()
+    {
+      Register = typeof(TRegister);
+      Resolve = typeof(TResolve);
+    }
+
+    /// <summary>
+    /// Try to use only for reflection types
+    /// </summary>
+    /// <param name="register"></param>
+    /// <param name="resolve"></param>
     public AppDependency(Type register, Type resolve)
     {
       Register = register ?? throw new ArgumentNullException(nameof(register));
@@ -16,14 +30,7 @@ namespace Shaykhullin.Injection
 
     public override bool Equals(object obj)
     {
-      return Equals(obj as AppDependency);
-    }
-
-    public bool Equals(AppDependency other)
-    {
-      return other != null &&
-             EqualityComparer<Type>.Default.Equals(Register, other.Register) &&
-             EqualityComparer<Type>.Default.Equals(Resolve, other.Resolve);
+      return Equals(obj as AppDependency<TRegister, TResolve>);
     }
 
     public override int GetHashCode()

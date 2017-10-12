@@ -7,7 +7,7 @@ namespace Shaykhullin.Injection
     : AppReturnsEntityProvider<TRegister>, 
       IReturnsEntity<TRegister>
   {
-    public AppReturnsEntity(IServiceBuilder builder, IDependencyContainer<AppDependency> container, 
+    public AppReturnsEntity(IServiceBuilder builder, IDependencyContainer container, 
       Func<TRegister> returns) : base(builder, container, returns) { }
 
     public IReturnsSelector<TRegister, TResolve> As<TResolve>()
@@ -17,7 +17,7 @@ namespace Shaykhullin.Injection
 
     public IServiceBuilder Singleton()
     {
-      container.Register(new AppDependency(typeof(TRegister), typeof(TRegister)),
+      container.Register(new AppDependency<TRegister, TRegister>(),
         new AppSingletonCreationalBehaviour<TRegister>(returns, null));
 
       return builder;

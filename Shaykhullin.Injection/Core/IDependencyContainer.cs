@@ -2,10 +2,10 @@
 
 namespace Shaykhullin.Injection
 {
-  internal interface IDependencyContainer<TDependencyKey>
+  internal interface IDependencyContainer
   {
-    void Register(TDependencyKey dependency, ICreationalBehaviour behaviour);
-    ICreationalBehaviour Get(TDependencyKey dependency);
+    void Register(IDependency dependency, ICreationalBehaviour behaviour);
+    ICreationalBehaviour Get(IDependency dependency);
     IEnumerable<ICreationalBehaviour> GetAll<TResolve>();
   }
 }

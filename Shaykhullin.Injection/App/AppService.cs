@@ -5,9 +5,9 @@ namespace Shaykhullin.Injection.App
 {
   internal class AppService : IService
   {
-    private IDependencyContainer<AppDependency> container;
+    private IDependencyContainer container;
 
-    public AppService(IDependencyContainer<AppDependency> container)
+    public AppService(IDependencyContainer container)
     {
       this.container = container;
     }
@@ -19,7 +19,7 @@ namespace Shaykhullin.Injection.App
 
     public TResolve Resolve<TResolve, TRegister>(params object[] args)
     {
-      var creator = container.Get(new AppDependency(typeof(TRegister), typeof(TResolve)));
+      var creator = container.Get(new AppDependency<TRegister, TResolve>());
 
       return Utils.Resolve<TResolve>(container, creator, args);
     }
