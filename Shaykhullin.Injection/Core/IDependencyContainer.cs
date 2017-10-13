@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Shaykhullin.Injection
 {
   internal interface IDependencyContainer
   {
-    void Register(IDependency dependency, ICreationalBehaviour behaviour);
-    ICreationalBehaviour Get(IDependency dependency);
+    ICreationalBehaviour Get<TResolve>();
+    ICreationalBehaviour Get<TRegister, TResolve>();
+    ICreationalBehaviour Get(Type register, Type resolve);
     IEnumerable<ICreationalBehaviour> GetAll<TResolve>();
+    void Register<TRegister, TResolve>(ICreationalBehaviour behaviour);
   }
 }

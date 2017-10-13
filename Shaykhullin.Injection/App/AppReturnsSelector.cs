@@ -12,9 +12,7 @@ namespace Shaykhullin.Injection
 
     public IServiceBuilder Singleton()
     {
-      container.Register(new AppDependency<TRegister, TResolve>(),
-        new AppSingletonCreationalBehaviour<TRegister>(returns, null));
-
+      container.Register<TRegister, TResolve>(new AppSingletonCreationalBehaviour<TRegister>(returns, null));
       return builder;
     }
   }

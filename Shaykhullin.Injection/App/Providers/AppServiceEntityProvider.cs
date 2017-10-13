@@ -20,8 +20,7 @@ namespace Shaykhullin.Injection.App
     {
       get
       {
-        container.Register(new AppDependency<TRegister, TRegister>(),
-          new AppTransientCreationalBehaviour<TRegister>(null));
+        container.Register<TRegister, TRegister>(new AppTransientCreationalBehaviour<TRegister>(null));
 
         return builder.Service;
       }
@@ -29,9 +28,7 @@ namespace Shaykhullin.Injection.App
 
     public IServiceEntity<TNext> Register<TNext>()
     {
-      container.Register(new AppDependency<TRegister, TRegister>(),
-        new AppTransientCreationalBehaviour<TRegister>(null));
-
+      container.Register<TRegister, TRegister>(new AppTransientCreationalBehaviour<TRegister>(null));
       return new AppServiceEntity<TNext>(builder, container);
     }
   }

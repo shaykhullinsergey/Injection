@@ -16,18 +16,14 @@
     {
       get
       {
-        container.Register(new AppDependency<TRegister, TResolve>(),
-          new AppTransientCreationalBehaviour<TRegister>(null));
-
+        container.Register<TRegister, TResolve>(new AppTransientCreationalBehaviour<TRegister>(null));
         return builder.Service;
       }
     }
 
     public IServiceEntity<TNext> Register<TNext>()
     {
-      container.Register(new AppDependency<TRegister, TResolve>(),
-        new AppTransientCreationalBehaviour<TRegister>(null));
-
+      container.Register<TRegister, TResolve>(new AppTransientCreationalBehaviour<TRegister>(null));
       return new AppServiceEntity<TNext>(builder, container);
     }
   }

@@ -7,6 +7,5 @@ namespace Shaykhullin.Injection
     TResolve Resolve<TResolve>(params object[] args);
     TResolve Resolve<TResolve, TRegister>(params object[] args);
     IEnumerable<TResolve> ResolveAll<TResolve>();
-    void ResolveFor<TResolve>(TResolve instance);
   }
 }

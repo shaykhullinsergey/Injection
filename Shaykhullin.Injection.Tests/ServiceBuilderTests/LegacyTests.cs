@@ -147,23 +147,6 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     }
 
     [Fact]
-    public void ResolveForIgnoresAttribute()
-    {
-      var g = new G(2);
-
-      var service = new AppServiceBuilder()
-        .Register<G>()
-          .Returns(s => g)
-        .Service;
-
-      var f = new F();
-
-      service.ResolveFor(f);
-
-      Assert.Equal(2, g.A);
-    }
-
-    [Fact]
     public void ReturnsServiceWorks()
     {
       var g = new G(10);

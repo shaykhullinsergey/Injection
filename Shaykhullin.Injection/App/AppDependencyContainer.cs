@@ -1,56 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Shaykhullin.Injection
 {
-  internal class AppDependencyContainer
-    : IDependencyContainer
+  internal class AppDependencyContainer : IDependencyContainer
   {
-    private readonly Dictionary<IDependency, ICreationalBehaviour> dependencies =
-      new Dictionary<IDependency, ICreationalBehaviour>();
+    private readonly Dictionary<(Type register, Type resolve), ICreationalBehaviour> dependencies =
+      new Dictionary<(Type, Type), ICreationalBehaviour>();
 
-
-    /// <summary>
-    /// Searches for dependency or throws exception
-    /// </summary>
-    /// <param name="dependency"></param>
-    /// <exception cref="NotSupportedException"></exception>
-    /// <returns></returns>
-    public ICreationalBehaviour Get(IDependency dependency)
+    public ICreationalBehaviour Get<TResolve>()
     {
-      dependencies.TryGetValue(dependency, out var creator);
+      var creator = dependencies.FirstOrDefault(pair => pair.Key.resolve == typeof(TResolve)).Value;
 
       if(creator == null)
       {
-        throw new NotSupportedException($"Type {dependency.Resolve} is not registered in container");
+        throw new InvalidOperationException($"Dependency of type {typeof(TResolve).Name} was not registered");
       }
 
       return creator;
     }
 
-    /// <summary>
-    /// Gets all dependencies registered as TResolve
-    /// </summary>
-    /// <typeparam name="TResolve"></typeparam>
-    /// <returns></returns>
-    public IEnumerable<ICreationalBehaviour> GetAll<TResolve>()
+    public ICreationalBehaviour Get<TRegister, TResolve>()
     {
-      foreach (var dependency in dependencies)
-      {
-        if (dependency.Key.Resolve == typeof(TResolve))
-          yield return dependency.Value;
-      }
+      return Get(typeof(TRegister), typeof(TResolve));
     }
 
-
-    /// <summary>
-    /// Registers new dependency in container
-    /// </summary>
-    /// <param name="dependency"></param>
-    /// <param name="behaviour"></param>
-    public void Register(IDependency dependency, ICreationalBehaviour behaviour)
+    public ICreationalBehaviour Get(Type register, Type resolve)
     {
-      dependencies.Add(dependency, behaviour);
+      dependencies.TryGetValue((register, resolve), out var creator);
+
+      if (creator == null)
+      {
+        throw new InvalidOperationException($"Dependency of type {resolve.Name} was not registered");
+      }
+
+      return creator;
+    }
+
+    public IEnumerable<ICreationalBehaviour> GetAll<TResolve>()
+    {
+      return dependencies.Where(pair => pair.Key.resolve == typeof(TResolve))
+        .Select(pair => pair.Value);
+    }
+
+    public void Register<TRegister, TResolve>(ICreationalBehaviour creator)
+    {
+      dependencies.Add((typeof(TRegister), typeof(TResolve)), creator);
     }
   }
 }
