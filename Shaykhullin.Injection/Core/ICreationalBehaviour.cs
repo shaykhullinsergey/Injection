@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-
-namespace Shaykhullin.Injection
+﻿namespace Shaykhullin.Injection
 {
   internal interface ICreationalBehaviour
   {
     TResolve Create<TResolve>(object[] args);
-    IMetaInfo Meta { get; }
+    IMetaInfo MetaInfo { get; }
   }
 }

@@ -1,30 +1,30 @@
 ﻿namespace Shaykhullin.Injection.App
 {
-  internal class AppServiceSelectorProvider<TRegister, TResolve> : IServiceBuilder
+  internal class AppContainerSelectorProvider<TRegister, TResolve> : IContainerBuilder
   {
-    protected readonly IServiceBuilder builder;
+    protected readonly IContainerBuilder builder;
     protected readonly IDependencyContainer container;
 
-    public AppServiceSelectorProvider(IServiceBuilder builder, 
+    protected AppContainerSelectorProvider(IContainerBuilder builder, 
       IDependencyContainer container)
     {
       this.builder = builder;
       this.container = container;
     }
 
-    public IService Service
+    public IContainer Container
     {
       get
       {
         container.Register<TRegister, TResolve>(new AppTransientCreationalBehaviour<TRegister>(null));
-        return builder.Service;
+        return builder.Container;
       }
     }
 
-    public IServiceEntity<TNext> Register<TNext>()
+    public IContainerEntity<TNext> Register<TNext>()
     {
       container.Register<TRegister, TResolve>(new AppTransientCreationalBehaviour<TRegister>(null));
-      return new AppServiceEntity<TNext>(builder, container);
+      return new AppContainerEntity<TNext>(builder, container);
     }
   }
 }

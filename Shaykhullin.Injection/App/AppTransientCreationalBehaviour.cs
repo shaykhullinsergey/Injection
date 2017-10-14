@@ -4,12 +4,12 @@ namespace Shaykhullin.Injection.App
 {
   internal class AppTransientCreationalBehaviour<TRegister> : ICreationalBehaviour
   {
-    public IMetaInfo Meta { get; }
+    public IMetaInfo MetaInfo { get; }
     private readonly Func<TRegister> returns;
 
     public AppTransientCreationalBehaviour(Func<TRegister> returns)
     {
-      Meta = new AppMetaInfo<TRegister>();
+      MetaInfo = new AppMetaInfo<TRegister>();
       this.returns = returns;
     }
 

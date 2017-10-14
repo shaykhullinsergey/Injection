@@ -16,10 +16,10 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     {
       var a = new A();
 
-      var service = new AppServiceBuilder()
+      var service = new AppContainerBuilder()
         .Register<A>()
           .Returns(s => a)
-        .Service;
+        .Container;
 
       Assert.Equal(a, service.Resolve<A>());
     }
@@ -27,13 +27,13 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     [Fact]
     public void ReturnsDoubleTypesWorks()
     {
-      var service = new AppServiceBuilder()
+      var service = new AppContainerBuilder()
         .Register<A>()
           .Returns(s => new A())
         .Register<B>()
           .Returns(s => new B())
           .As<A>()
-        .Service;
+        .Container;
 
       var ais = service.ResolveAll<A>();
 
@@ -56,12 +56,12 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     {
       var c = new C();
 
-      var service = new AppServiceBuilder()
+      var service = new AppContainerBuilder()
         .Register<D>()
           .Returns(s => new D(s.Resolve<C>()))
         .Register<C>()
           .Returns(s => c)
-        .Service;
+        .Container;
 
       Assert.Equal(c, service.Resolve<D>().Test);
     }

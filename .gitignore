@@ -19,3 +19,4 @@ Shaykhullin.Injection/bin/Release/Shaykhullin.Injection.2.1.0.nupkg
 *.props
 *.nuspec
 *.nupkg
+*.targets

@@ -1,8 +1,7 @@
 ﻿namespace Shaykhullin.Injection
 {
-  public interface IReturnsEntity<TRegister> 
-    : IServiceBuilder, IReturnsSelector<TRegister, TRegister>
+  public interface IReturnsEntity : IReturnsSelector
   {
-    IReturnsSelector<TRegister, TResolve> As<TResolve>();
+    IReturnsSelector As<TResolve>();
   }
 }

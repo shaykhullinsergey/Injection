@@ -12,10 +12,10 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     [Fact]
     public void SingletonReturnsSameObject()
     {
-      var service = new AppServiceBuilder()
+      var service = new AppContainerBuilder()
         .Register<TestA>()
         .Singleton()
-      .Service;
+      .Container;
 
       var a1 = service.Resolve<TestA>();
       var a2 = service.Resolve<TestA>();
@@ -38,10 +38,10 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     [Fact]
     public void SingletonWithParamsInstantiateCorrect()
     {
-      var service = new AppServiceBuilder()
+      var service = new AppContainerBuilder()
         .Register<TestB>()
           .Singleton(1, 2)
-        .Service;
+        .Container;
 
       var b = service.Resolve<TestB>();
 
@@ -75,11 +75,11 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     [Fact]
     public void RetrunsVsInject()
     {
-      var service = new AppServiceBuilder()
+      var service = new AppContainerBuilder()
         .Register<B>()
           .Returns(s => new B(3, 4))
         .Register<C>()
-        .Service;
+        .Container;
 
       var c = service.Resolve<C>();
     }
@@ -92,11 +92,11 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     {
       Assert.Throws<InvalidOperationException>(() =>
       {
-        var service = new AppServiceBuilder()
+        var service = new AppContainerBuilder()
           .Register<B>()
             .Singleton(3, 4)
           .Register<C>()
-          .Service;
+          .Container;
 
         var c = service.Resolve<C>();
       });

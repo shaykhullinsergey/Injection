@@ -10,7 +10,7 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
 
     public void ServiceBuilderStructure()
     {
-      var service = new AppServiceBuilder()
+      var service = new AppContainerBuilder()
        .Register<A>()
        .Register<A>()
          .Singleton()
@@ -33,7 +33,7 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
        .Register<A>()
          .As<A>()
          .Singleton()
-       .Service;
+       .Container;
     }
   }
 }

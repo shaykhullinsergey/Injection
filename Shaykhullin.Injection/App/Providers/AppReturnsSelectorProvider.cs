@@ -2,13 +2,13 @@
 
 namespace Shaykhullin.Injection.App
 {
-  internal class AppReturnsSelectorProvider<TRegister, TResolve> : IServiceBuilder
+  internal class AppReturnsSelectorProvider<TRegister, TResolve> : IContainerBuilder
   {
-    protected readonly IServiceBuilder builder;
+    protected readonly IContainerBuilder builder;
     protected readonly IDependencyContainer container;
     protected readonly Func<TRegister> returns;
 
-    public AppReturnsSelectorProvider(IServiceBuilder builder,
+    protected AppReturnsSelectorProvider(IContainerBuilder builder,
       IDependencyContainer container, Func<TRegister> returns)
     {
       this.builder = builder;
@@ -16,19 +16,19 @@ namespace Shaykhullin.Injection.App
       this.returns = returns;
     }
 
-    public IService Service
+    public IContainer Container
     {
       get
       {
         container.Register<TRegister, TResolve>(new AppTransientCreationalBehaviour<TRegister>(returns));
-        return builder.Service;
+        return builder.Container;
       }
     }
 
-    public IServiceEntity<TNext> Register<TNext>()
+    public IContainerEntity<TNext> Register<TNext>()
     {
       container.Register<TRegister, TResolve>(new AppTransientCreationalBehaviour<TRegister>(returns));
-      return new AppServiceEntity<TNext>(builder, container);
+      return new AppContainerEntity<TNext>(builder, container);
     }
   }
 }

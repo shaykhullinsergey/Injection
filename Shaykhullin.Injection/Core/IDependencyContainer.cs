@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Shaykhullin.Injection
 {
@@ -7,8 +8,11 @@ namespace Shaykhullin.Injection
   {
     ICreationalBehaviour Get<TResolve>();
     ICreationalBehaviour Get<TRegister, TResolve>();
-    ICreationalBehaviour Get(Type register, Type resolve);
+    ICreationalBehaviour Get(Type property, Type resolve);
+    
     IEnumerable<ICreationalBehaviour> GetAll<TResolve>();
+    IEnumerable<ICreationalBehaviour> GetAll(Type resolve);
+    
     void Register<TRegister, TResolve>(ICreationalBehaviour behaviour);
   }
 }

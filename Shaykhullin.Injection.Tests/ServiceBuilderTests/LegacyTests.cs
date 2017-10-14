@@ -1,5 +1,6 @@
 ﻿using Xunit;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
 {
@@ -70,7 +71,7 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     // [Fact]
     private void TestTree()
     {
-      var service = new AppServiceBuilder()
+      var service = new AppContainerBuilder()
         .Register<A>()
         .Register<A>()
           .Singleton()
@@ -93,16 +94,16 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
         .Register<A>()
           .As<A>()
           .Singleton()
-        .Service;
+        .Container;
     }
 
     [Fact]
     public void EntityReturnWorks()
     {
-      var service = new AppServiceBuilder()
+      var service = new AppContainerBuilder()
         .Register<A>()
         .Register<B>()
-      .Service;
+      .Container;
 
       var a1 = service.Resolve<A>();
       var a2 = service.Resolve<A>();
@@ -117,10 +118,10 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     [Fact]
     public void SingletonArgsWorks()
     {
-      var service = new AppServiceBuilder()
+      var service = new AppContainerBuilder()
         .Register<H>()
           .Singleton(3, 4)
-        .Service;
+        .Container;
 
       var h = service.Resolve<H>();
 
@@ -132,14 +133,14 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     [Fact]
     public void ResolveAllReturnsAllOfType()
     {
-      var service = new AppServiceBuilder()
+      var service = new AppContainerBuilder()
         .Register<A>()
         .Register<B>()
           .As<A>()
         .Register<C>()
           .As<A>()
         .Register<B>()
-        .Service;
+        .Container;
 
       var resolved = service.ResolveAll<A>();
 
@@ -151,14 +152,14 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     {
       var g = new G(10);
 
-      var service = new AppServiceBuilder()
+      var service = new AppContainerBuilder()
         .Register<F>()
           .Returns(s => new F { G = s.Resolve<G>() })
           .Singleton()
         .Register<G>()
           .Returns(s => g)
           .Singleton()
-        .Service;
+        .Container;
 
       var f = service.Resolve<F>();
       Assert.Equal(f.G, g);
@@ -169,11 +170,11 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     {
       var b = new B();
 
-      var service = new AppServiceBuilder()
+      var service = new AppContainerBuilder()
         .Register<B>()
         .Returns(s => b)
         .Singleton()
-        .Service;
+        .Container;
 
       Assert.Equal(b, service.Resolve<B>());
     }
@@ -183,9 +184,9 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     [Fact]
     public void NamedAndArgsResolves()
     {
-      var service = new AppServiceBuilder()
+      var service = new AppContainerBuilder()
         .Register<E>()
-        .Service;
+        .Container;
 
       var e = service.Resolve<E>(3, 4);
 
@@ -196,12 +197,12 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     [Fact]
     public void EmptyInjectResolves()
     {
-      var service = new AppServiceBuilder()
+      var service = new AppContainerBuilder()
         .Register<B>()
           .Singleton()
         .Register<C>()
           .Singleton()
-        .Service;
+        .Container;
 
       var b = service.Resolve<B>();
       var c = service.Resolve<C>();
@@ -212,11 +213,11 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     [Fact]
     public void ResolveNamedReturnsCorrent()
     {
-      var service = new AppServiceBuilder()
+      var service = new AppContainerBuilder()
         .Register<A>()
         .Register<B>()
           .As<A>()
-        .Service;
+        .Container;
 
       Assert.True(service.Resolve<A, B>() is B);
     }
@@ -226,9 +227,9 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     [Fact]
     public void TransientReferencesNotEqual()
     {
-      var service = new AppServiceBuilder()
+      var service = new AppContainerBuilder()
         .Register<A>()
-        .Service;
+        .Container;
 
       var a1 = service.Resolve<A>();
       var a2 = service.Resolve<A>();
@@ -239,15 +240,50 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     [Fact]
     public void SingletonReferencesEqual()
     {
-      var service = new AppServiceBuilder()
+      var service = new AppContainerBuilder()
         .Register<A>()
           .Singleton()
-        .Service;
+        .Container;
 
       var a1 = service.Resolve<A>();
       var a2 = service.Resolve<A>();
 
       Assert.True(ReferenceEquals(a1, a2));
+    }
+
+    class V
+    {
+      [Inject]
+      public IEnumerable<N> Ns { get; set; }
+    }
+
+    class N
+    {
+    }
+
+    class N1 : N
+    {
+
+    }
+
+    class N2 : N
+    {
+
+    }
+
+    [Fact]
+    public void ReturnsIEnumerable()
+    {
+      var container = new AppContainerBuilder()
+        .Register<N>()
+        .Register<N1>().As<N>()
+        .Register<N2>().As<N>()
+        .Register<V>()
+      .Container;
+
+      var v = container.Resolve<V>();
+
+      Assert.Equal(v.Ns.Count(), 3);
     }
   }
 }

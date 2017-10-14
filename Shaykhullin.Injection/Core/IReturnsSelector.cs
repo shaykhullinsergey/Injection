@@ -1,7 +1,7 @@
 ﻿namespace Shaykhullin.Injection
 {
-  public interface IReturnsSelector<TRegister, TResolve> : IServiceBuilder
+  public interface IReturnsSelector : IContainerBuilder
   {
-    IServiceBuilder Singleton();
+    IContainerBuilder Singleton();
   }
 }

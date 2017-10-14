@@ -5,17 +5,17 @@ namespace Shaykhullin.Injection
 {
   internal class AppReturnsEntity<TRegister> 
     : AppReturnsEntityProvider<TRegister>, 
-      IReturnsEntity<TRegister>
+      IReturnsEntity
   {
-    public AppReturnsEntity(IServiceBuilder builder, IDependencyContainer container, 
+    public AppReturnsEntity(IContainerBuilder builder, IDependencyContainer container, 
       Func<TRegister> returns) : base(builder, container, returns) { }
 
-    public IReturnsSelector<TRegister, TResolve> As<TResolve>()
+    public IReturnsSelector As<TResolve>()
     {
       return new AppReturnsSelector<TRegister, TResolve>(builder, container, returns);
     }
 
-    public IServiceBuilder Singleton()
+    public IContainerBuilder Singleton()
     {
       container.Register<TRegister, TRegister>(new AppSingletonCreationalBehaviour<TRegister>(returns, null));
       return builder;
