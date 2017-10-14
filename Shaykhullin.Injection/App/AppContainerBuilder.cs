@@ -4,23 +4,22 @@ namespace Shaykhullin.Injection
 {
   public class AppContainerBuilder : IContainerBuilder
   {
-    private readonly IDependencyContainer container;
-
+    private readonly IDependencyContainer dependencyContainer;
+    public IContainer Container { get; }
+    
     public AppContainerBuilder()
     {
-      container = new AppDependencyContainer();
-      Container = new AppContainer(container);
+      dependencyContainer = new AppDependencyContainer();
+      Container = new AppContainer(dependencyContainer);
 
       Register<IContainer>()
         .Returns(s => Container)
         .Singleton();
     }
 
-    public IContainer Container { get; }
-
     public IContainerEntity<TRegister> Register<TRegister>()
     {
-      return new AppContainerEntity<TRegister>(this, container);
+      return new AppContainerEntity<TRegister>(this, dependencyContainer);
     }
   }
 }

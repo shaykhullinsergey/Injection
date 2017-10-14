@@ -20,3 +20,4 @@ Shaykhullin.Injection/bin/Release/Shaykhullin.Injection.2.1.0.nupkg
 *.nuspec
 *.nupkg
 *.targets
+.idea/.idea.Shaykhullin.Injection/.idea/workspace.xml

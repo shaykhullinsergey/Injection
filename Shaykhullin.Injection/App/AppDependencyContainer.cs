@@ -13,14 +13,8 @@ namespace Shaykhullin.Injection
 
     public ICreationalBehaviour Get<TResolve>()
     {
-      var creator = dependencies.FirstOrDefault(pair => pair.Key.resolve == typeof(TResolve)).Value;
-
-      if(creator == null)
-      {
-        throw new InvalidOperationException($"Dependency of type {typeof(TResolve).Name} was not registered");
-      }
-
-      return creator;
+      return dependencies.FirstOrDefault(pair => pair.Key.resolve == typeof(TResolve)).Value
+        ?? throw new InvalidOperationException($"Dependency of type {typeof(TResolve).Name} was not registered");
     }
 
     public ICreationalBehaviour Get<TRegister, TResolve>()
@@ -42,12 +36,9 @@ namespace Shaykhullin.Injection
     {
       return dependencies.TryGetValue((register, resolve), out var creator)
         ? creator
-        : throw new InvalidOperationException($"Dependency of type {resolve.Name} was not registered");
-      
-      
-//        : type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
-//          ? new AppIEnumerableCreationalBehaviour(property, this)
-//          : throw new InvalidOperationException($"Dependency of type {resolve.Name} was not registered"); 
+        : register.IsGenericType && register.GetGenericTypeDefinition() == typeof(IEnumerable<>)
+          ? new AppIEnumerableCreationalBehaviour(register, this)
+          : throw new InvalidOperationException($"Dependency of type {resolve.Name} was not registered");
     }
 
     public IEnumerable<ICreationalBehaviour> GetAll(Type resolve)

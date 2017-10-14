@@ -15,14 +15,16 @@ namespace Shaykhullin.Injection.App
 
     public TResolve Resolve<TResolve>(params object[] args)
     {
-      var creator = container.Get<TResolve>();
-      return Utils.Resolve<TResolve>(container, creator, args);
+      return Utils.Resolve<TResolve>(container, 
+        container.Get<TResolve>(),
+        args);
     }
 
     public TResolve Resolve<TResolve, TRegister>(params object[] args)
     {
-      var creator = container.Get<TRegister, TResolve>();
-      return Utils.Resolve<TResolve>(container, creator, args);
+      return Utils.Resolve<TResolve>(container, 
+        container.Get<TRegister, TResolve>(), 
+        args);
     }
 
     public IEnumerable<TResolve> ResolveAll<TResolve>()

@@ -8,18 +8,19 @@ namespace Shaykhullin.Injection.App
 {
     internal class AppIEnumerableCreationalBehaviour : ICreationalBehaviour
     {
-        private readonly PropertyInfo property;
+        private readonly Type memberType;
         private readonly IDependencyContainer container;
 
-        public AppIEnumerableCreationalBehaviour(PropertyInfo property, IDependencyContainer container)
+        public AppIEnumerableCreationalBehaviour(Type memberType, IDependencyContainer container)
         {
-            this.property = property;
+            this.memberType = memberType;
             this.container = container;
+            MetaInfo = new AppMetaInfo<AppIEnumerableCreationalBehaviour>();
         }
         
         public TResolve Create<TResolve>(object[] args)
         {
-            var argType = property.PropertyType.GetGenericArguments()[0];
+            var argType = memberType.GetGenericArguments()[0];
 
             var listType = typeof(List<>).MakeGenericType(argType);
             var myList = (IList)Activator.CreateInstance(listType);

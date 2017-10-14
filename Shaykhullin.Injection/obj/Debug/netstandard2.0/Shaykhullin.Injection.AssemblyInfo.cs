@@ -9,8 +9,8 @@ using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("Shaykhullin.Injection")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("2.3.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.3.0")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("2.3.1.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.3.1")]
 [assembly: System.Reflection.AssemblyProductAttribute("Shaykhullin.Injection")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Shaykhullin.Injection")]
-[assembly: System.Reflection.AssemblyVersionAttribute("2.3.0.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("2.3.1.0")]
