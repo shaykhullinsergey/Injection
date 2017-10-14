@@ -13,7 +13,7 @@ namespace Shaykhullin.Injection.App
     {
       this.register = register;
       this.container = container;
-      MetaInfo = new AppMetaInfo<AppIEnumerableCreationalBehaviour>();
+      MetaInfo = new AppMetaInfo<IMetaInfo>();
     }
 
     public TResolve Create<TResolve>(object[] args)

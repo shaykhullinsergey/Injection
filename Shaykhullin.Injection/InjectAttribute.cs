@@ -6,11 +6,11 @@ namespace Shaykhullin.Injection
   public class InjectAttribute : Attribute
   {
     public object[] Args { get; }
-    public Type Resolve { get; set; }
+    public Type Register { get; set; }
 
-    public InjectAttribute(Type resolve)
+    public InjectAttribute(Type register)
     {
-      Resolve = resolve ?? throw new ArgumentNullException(nameof(resolve));
+      Register = register ?? throw new ArgumentNullException(nameof(register));
     }
 
     public InjectAttribute(params object[] args)
@@ -18,10 +18,10 @@ namespace Shaykhullin.Injection
       Args = args ?? throw new ArgumentNullException(nameof(args));
     }
 
-    public InjectAttribute(Type resolve, params object[] args)
+    public InjectAttribute(Type register, params object[] args)
     {
       Args = args ?? throw new ArgumentNullException(nameof(args));
-      Resolve = resolve ?? throw new ArgumentNullException(nameof(resolve));
+      Register = register ?? throw new ArgumentNullException(nameof(register));
     }
   }
 }
