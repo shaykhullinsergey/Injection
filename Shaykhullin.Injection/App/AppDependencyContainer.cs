@@ -11,8 +11,9 @@ namespace Shaykhullin.Injection.App
 
     public ICreationalBehaviour Get<TResolve>()
     {
-      return dependencies.FirstOrDefault(pair => pair.Key.resolve == typeof(TResolve)).Value
-        ?? throw new InvalidOperationException($"Dependency of type {typeof(TResolve).Name} was not registered");
+      return dependencies.FirstOrDefault(
+        pair => pair.Key.resolve == typeof(TResolve)).Value
+          ?? throw new InvalidOperationException($"Dependency of type {typeof(TResolve).Name} was not registered");
     }
 
     public ICreationalBehaviour Get<TRegister, TResolve>()

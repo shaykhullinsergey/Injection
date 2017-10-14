@@ -29,3 +29,6 @@ Shaykhullin.Injection.Tests/obj/Debug/netcoreapp2.0/Shaykhullin.Injection.Tests.
 .idea/.idea.Shaykhullin.Injection/.idea/modules.xml
 .idea/.idea.Shaykhullin.Injection/.idea/indexLayout.xml
 .idea/.idea.Shaykhullin.Injection/.idea/contentModel.xml
+Shaykhullin.Injection/obj/Release/netstandard2.0/Shaykhullin.Injection.AssemblyInfo.cs
+Shaykhullin.Injection.Tests/obj/Release/netcoreapp2.0/Shaykhullin.Injection.Tests.AssemblyInfo.cs
+Shaykhullin.Injection.Tests/obj/Release/netcoreapp2.0/Shaykhullin.Injection.Tests.Program.cs

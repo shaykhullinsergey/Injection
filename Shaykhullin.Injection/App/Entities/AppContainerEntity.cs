@@ -17,12 +17,14 @@ namespace Shaykhullin.Injection
 
     public IReturnsEntity Returns(Func<IContainer, TRegister> returns)
     {
-      return new AppReturnsEntity<TRegister>(builder, container, () => returns(builder.Container));
+      return new AppReturnsEntity<TRegister>(builder, container, 
+        () => returns(builder.Container));
     }
 
     public IContainerBuilder Singleton(params object[] args)
     {
-      container.Register<TRegister, TRegister>(new AppSingletonCreationalBehaviour<TRegister>(null, args));
+      container.Register<TRegister, TRegister>(
+        new AppSingletonCreationalBehaviour<TRegister>(null, args));
       return builder;
     }
   }

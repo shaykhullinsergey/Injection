@@ -20,14 +20,18 @@ namespace Shaykhullin.Injection.App
     {
       get
       {
-        container.Register<TRegister, TResolve>(new AppTransientCreationalBehaviour<TRegister>(returns));
+        container.Register<TRegister, TResolve>(
+          new AppTransientCreationalBehaviour<TRegister>(returns));
+        
         return builder.Container;
       }
     }
 
     public IContainerEntity<TNext> Register<TNext>()
     {
-      container.Register<TRegister, TResolve>(new AppTransientCreationalBehaviour<TRegister>(returns));
+      container.Register<TRegister, TResolve>(
+        new AppTransientCreationalBehaviour<TRegister>(returns));
+      
       return new AppContainerEntity<TNext>(builder, container);
     }
   }

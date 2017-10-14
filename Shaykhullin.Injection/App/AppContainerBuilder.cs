@@ -4,18 +4,17 @@ namespace Shaykhullin.Injection
 {
   public class AppContainerBuilder : IContainerBuilder
   {
-    private readonly IDependencyContainer dependencyContainer;
-    public IContainer Container { get; }
+    private readonly IDependencyContainer container;
+    public IContainer Container => new AppContainer(container);
     
     public AppContainerBuilder()
     {
-      dependencyContainer = new AppDependencyContainer();
-      Container = new AppContainer(dependencyContainer);
+      container = new AppDependencyContainer();
     }
 
     public IContainerEntity<TRegister> Register<TRegister>()
     {
-      return new AppContainerEntity<TRegister>(this, dependencyContainer);
+      return new AppContainerEntity<TRegister>(this, container);
     }
   }
 }

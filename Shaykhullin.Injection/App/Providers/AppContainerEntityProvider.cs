@@ -16,14 +16,18 @@
     {
       get
       {
-        container.Register<TRegister, TRegister>(new AppTransientCreationalBehaviour<TRegister>(null));
+        container.Register<TRegister, TRegister>(
+          new AppTransientCreationalBehaviour<TRegister>(null));
+        
         return builder.Container;
       }
     }
 
     public IContainerEntity<TNext> Register<TNext>()
     {
-      container.Register<TRegister, TRegister>(new AppTransientCreationalBehaviour<TRegister>(null));
+      container.Register<TRegister, TRegister>(
+        new AppTransientCreationalBehaviour<TRegister>(null));
+      
       return new AppContainerEntity<TNext>(builder, container);
     }
   }

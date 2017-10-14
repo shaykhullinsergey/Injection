@@ -11,12 +11,15 @@ namespace Shaykhullin.Injection.App
 
     public IReturnsSelector As<TResolve>()
     {
-      return new AppReturnsSelector<TRegister, TResolve>(builder, container, returns);
+      return new AppReturnsSelector<TRegister, TResolve>(
+        builder, container, returns);
     }
 
     public IContainerBuilder Singleton()
     {
-      container.Register<TRegister, TRegister>(new AppSingletonCreationalBehaviour<TRegister>(returns, null));
+      container.Register<TRegister, TRegister>(
+        new AppSingletonCreationalBehaviour<TRegister>(returns, null));
+      
       return builder;
     }
   }
