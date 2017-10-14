@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Shaykhullin.Injection.App
 {
   internal class AppMetaInfo<TRegister> : IMetaInfo
   {
-    private readonly IEnumerable<(FieldInfo field, InjectAttribute inject)> fields;
-    private readonly IEnumerable<(PropertyInfo prop, InjectAttribute inject)> properties;
+    private readonly IEnumerable<(FieldInfo field, InjectAttribute inject)> fieldTypes;
+    private readonly IEnumerable<(PropertyInfo prop, InjectAttribute inject)> propertyTypes;
 
     public AppMetaInfo()
     {
-      fields = typeof(TRegister)
+      fieldTypes = typeof(TRegister)
         .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
         .Where(field => field.IsDefined(typeof(InjectAttribute)))
         .Select(field => (field: field,
           inject: field.GetCustomAttribute<InjectAttribute>()));
 
-      properties = typeof(TRegister)
+      propertyTypes = typeof(TRegister)
         .GetProperties(BindingFlags.Instance | BindingFlags.Public)
         .Where(property => property.IsDefined(typeof(InjectAttribute)))
         .Select(property => (property: property,
@@ -29,8 +27,8 @@ namespace Shaykhullin.Injection.App
     public void Deconstruct(out IEnumerable<(FieldInfo Field, InjectAttribute Inject)> fields,
       out IEnumerable<(PropertyInfo Property, InjectAttribute Inject)> properties)
     {
-      fields = this.fields;
-      properties = this.properties;
+      fields = fieldTypes;
+      properties = propertyTypes;
     }
   }
 }

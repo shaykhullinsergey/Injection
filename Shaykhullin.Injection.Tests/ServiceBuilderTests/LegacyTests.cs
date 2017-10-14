@@ -253,7 +253,7 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
 
     class V
     {
-      [Inject]
+      [Inject(Resolve = typeof(int))]
       public IEnumerable<N> Ns { get; set; }
     }
 

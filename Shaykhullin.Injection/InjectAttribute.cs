@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Shaykhullin.Injection
 {
-  [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
+  [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
   public class InjectAttribute : Attribute
   {
-    public object[] Args { get; set; }
+    public object[] Args { get; }
     public Type Resolve { get; set; }
 
     public InjectAttribute(Type resolve)
