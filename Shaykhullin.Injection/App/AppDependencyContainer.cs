@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using Shaykhullin.Injection.App;
+using System.Collections.Generic;
 
-namespace Shaykhullin.Injection
+namespace Shaykhullin.Injection.App
 {
   internal class AppDependencyContainer : IDependencyContainer
   {

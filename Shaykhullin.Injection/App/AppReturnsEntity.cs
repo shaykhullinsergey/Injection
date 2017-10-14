@@ -1,7 +1,7 @@
 ﻿using System;
 using Shaykhullin.Injection.App;
 
-namespace Shaykhullin.Injection
+namespace Shaykhullin.Injection.App
 {
   internal class AppReturnsEntity<TRegister> 
     : AppReturnsEntityProvider<TRegister>, 

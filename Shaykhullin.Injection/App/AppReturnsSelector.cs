@@ -1,7 +1,6 @@
 ﻿using System;
-using Shaykhullin.Injection.App;
 
-namespace Shaykhullin.Injection
+namespace Shaykhullin.Injection.App
 {
   internal class AppReturnsSelector<TRegister, TResolve> 
     : AppReturnsSelectorProvider<TRegister, TResolve>, 
