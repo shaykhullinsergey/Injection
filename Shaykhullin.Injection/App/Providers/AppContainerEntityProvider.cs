@@ -21,7 +21,6 @@ namespace Shaykhullin.Injection.App
       get
       {
         container.Register<TRegister, TRegister>(new AppTransientCreationalBehaviour<TRegister>(null));
-
         return builder.Container;
       }
     }

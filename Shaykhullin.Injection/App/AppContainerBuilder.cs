@@ -11,10 +11,6 @@ namespace Shaykhullin.Injection
     {
       dependencyContainer = new AppDependencyContainer();
       Container = new AppContainer(dependencyContainer);
-
-      Register<IContainer>()
-        .Returns(s => Container)
-        .Singleton();
     }
 
     public IContainerEntity<TRegister> Register<TRegister>()
