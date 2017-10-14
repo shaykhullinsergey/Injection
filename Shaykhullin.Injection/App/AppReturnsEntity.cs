@@ -1,5 +1,4 @@
 ﻿using System;
-using Shaykhullin.Injection.App;
 
 namespace Shaykhullin.Injection.App
 {
