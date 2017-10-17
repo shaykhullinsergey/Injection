@@ -22,13 +22,12 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     {
         var container = new AppContainerBuilder()
           .Register<A>()
-            .Returns(c => new A { B = c.Resolve<B>()})
             .Singleton()
           .Register<B>()
-            .Returns(c => new B { A = c.Resolve<A>()})
+            .Singleton()
           .Container;
 
-        var a = container.Resolve<A>();
+//        var a = container.Resolve<A>();
     } 
   }
 }
