@@ -40,13 +40,13 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
       }
     }
 
-    public class F
+    class F
     {
       [Inject(12)]
       public G G { get; set; }
     }
 
-    public class G
+    class G
     {
       public int A { get; set; }
 
@@ -56,7 +56,7 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
       }
     }
 
-    public class H
+    class H
     {
       public int X { get; set; }
       public int Y { get; set; }

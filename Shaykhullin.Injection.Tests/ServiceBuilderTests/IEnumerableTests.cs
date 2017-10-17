@@ -29,7 +29,7 @@ namespace Shaykhullin.Injection.Tests.ServiceBuilderTests
     }
     
     [Fact]
-    public void IenumerableWorks()
+    public void IEnumerableWorks()
     {
       var container = new AppContainerBuilder()
         .Register<A>()
